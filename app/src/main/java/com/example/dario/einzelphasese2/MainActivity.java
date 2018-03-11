@@ -9,44 +9,56 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
 public class MainActivity extends AppCompatActivity {
+
+    private Button testBtn;
+    private TextView resultatTextView;
+    EditText stringTestOne;
+
+    public static boolean isPalindrome(String str){
+        return str.equals(new StringBuilder(str).reverse().toString()); }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        testBtn = (Button) findViewById(R.id.testBtn);
+        stringTestOne = (EditText) findViewById(R.id.stringEingabe);
+        resultatTextView = (TextView) findViewById(R.id.ausgabe);
+
+
+        testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+
+                String palindrome = stringTestOne.getText().toString();
+
+                if (palindrome.length() < 5) {
+                    resultatTextView.setText("Eingabe ist zu kurz!");
+                    return;
+                }
+                if (isPalindrome(palindrome)) {
+                    resultatTextView.setText("Die Eingabe ist ein Palindrome!");
+                    return;
+                }
+                if (palindrome.contains(" ")) {
+                    resultatTextView.setText("Eingabe darf keine Leerzeichen haben!");
+                    return;
+                }else {
+                    resultatTextView.setText("Die Eingabe ist kein Palindrome!");
+                    return;
+                }
+
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
